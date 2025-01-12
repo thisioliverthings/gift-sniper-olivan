@@ -1,0 +1,12 @@
+version: 0.0.1 [beta]
+
+bot_token: 123123123:xx
+parse_mode: html
+
+developer: "@awixa"
+owner: 6802676832
+poll_interval: 3 # in seconds
+
+redis:
+  host: localhost
+  port: 6379

@@ -1,10 +1,11 @@
+from typing import Optional
+
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import select
 
-from typing import Optional
-
 from .models import Base, User, Invoice
+from src.utils import BalanceOperation
 
 
 class Database:
@@ -34,14 +35,21 @@ class Database:
                 session.add(user)
                 await session.commit()
 
-    async def update_balance(self, _id: int, new_balance: float, add_to_current: bool = False) -> Optional[User]:
+    async def update_balance(self, _id: int, amount: float, operation: BalanceOperation = BalanceOperation.SET) -> Optional[User]:
         async with self.async_session() as session:
             query = select(User).where(User.id == _id)
             result = await session.execute(query)
             user = result.scalar_one_or_none()
             
             if user:
-                user.balance = (new_balance + user.balance) if add_to_current else new_balance
+                match operation:
+                    case BalanceOperation.ADD:
+                        user.balance += amount
+                    case BalanceOperation.SUBTRACT:
+                        user.balance -= amount
+                    case BalanceOperation.SET:
+                        user.balance = amount
+                
                 await session.commit()
                 return user
             return None
@@ -51,6 +59,18 @@ class Database:
             query = select(User).where(User.id == _id)
             result = await session.execute(query)
             return result.scalar_one_or_none()
+    
+    async def grant_vip(self, _id: int, vip_value: bool) -> Optional[User]:
+        async with self.async_session() as session:
+            query = select(User).where(User.id == _id)
+            result = await session.execute(query)
+            user = result.scalar_one_or_none()
+            
+            if user:
+                user.vip = vip_value
+                await session.commit()
+                return user
+            return None
     
     async def create_invoice(self, amount: int) -> int:
         async with self.async_session() as session:

@@ -5,6 +5,7 @@ from aiogram.fsm.context import FSMContext
 
 from src.data import Text, Markup
 from src.states import PaymentsStates
+from src.utils import BalanceOperation
 
 
 rname = 'payments'
@@ -88,7 +89,11 @@ async def process_successful_payment(message: Message, state: FSMContext):
     invoice_id = int(message.successful_payment.invoice_payload)
     back_message_id = await message.bot.database.get_invoice_message_id(invoice_id, True)
 
-    await message.bot.database.update_balance(message.from_user.id, message.successful_payment.total_amount)
+    await message.bot.database.update_balance(
+        message.from_user.id, 
+        message.successful_payment.total_amount,
+        operation=BalanceOperation.ADD
+    )
 
     await message.bot.delete_message(
         chat_id=message.chat.id, 
@@ -105,3 +110,41 @@ async def process_successful_payment(message: Message, state: FSMContext):
     )
     
     await state.clear()
+
+
+@router.callback_query(F.data == 'buy_vip')
+async def vip_info_handler(call: CallbackQuery):
+    await call.message.edit_text(
+        text=Text.vip_text.format(call.bot.config.vip_price),
+        reply_markup=Markup.configurator(
+            [Markup.buy_vip],
+            [Markup.back('profile')]
+        )
+    )
+
+
+@router.callback_query(F.data == 'invoice_buy_vip')
+async def vip_buy_handler(call: CallbackQuery):
+    user_balance = (
+        await call.bot.database.get_user(call.from_user.id)
+    ).balance
+
+    if user_balance < call.bot.config.vip_price:
+        return await call.answer(
+            text=Text.errors.insufficient_funds,
+            show_alert=True
+        )
+    
+    await call.bot.database.update_balance(
+        call.from_user.id, 
+        call.bot.config.vip_price,
+        operation=BalanceOperation.SUBTRACT
+    )
+    await call.bot.database.grant_vip(call.from_user.id, True)
+    
+    await call.message.edit_text(
+        text=Text.success_buy_vip,
+        reply_markup=Markup.configurator(
+            [Markup.back('profile')]
+        )
+    )

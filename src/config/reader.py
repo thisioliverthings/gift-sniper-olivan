@@ -19,6 +19,8 @@ class Config(BaseModel):
     vip_poll_interval: int
     default_poll_interval: int 
 
+    vip_price: int
+
     redis: RedisConfig
 
 class ConfigReader:

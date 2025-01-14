@@ -1,3 +1,6 @@
+from enum import Enum
+
+
 class DefaultUtils:
     def remove_html_tags(text: str) -> str:
         return text.replace('<', '').replace('>', '')
@@ -17,3 +20,8 @@ class CustomMessage(CustomBase):
     def __init__(self, original_call):
         super().__init__(original_call)
         self.answer = original_call.edit_text
+
+class BalanceOperation(Enum):
+    ADD = "+"
+    SUBTRACT = "-"
+    SET = "="

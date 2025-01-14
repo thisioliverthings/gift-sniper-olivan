@@ -1,5 +1,6 @@
-from src.utils.util import DefaultUtils, CustomCall, CustomMessage
+from src.utils.util import DefaultUtils, CustomCall, CustomMessage, BalanceOperation
 
 __all__ = [
-    "DefaultUtils", "CustomCall", "CustomMessage"
+    "DefaultUtils", "CustomCall", "CustomMessage",
+    "BalanceOperation"
 ]

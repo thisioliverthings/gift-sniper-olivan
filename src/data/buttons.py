@@ -17,6 +17,10 @@ class Markup:
         [KeyboardButton(text='Отмена')]
     ], resize_keyboard=True)
 
+    buy_vip = InlineKeyboardButton(
+        text='Приобрести навсегда', callback_data='invoice_buy_vip'
+    )
+
     @staticmethod
     def back(back_type: str) -> InlineKeyboardButton:
         return InlineKeyboardButton(text='⬅️ Назад', callback_data=f'back|{back_type}')

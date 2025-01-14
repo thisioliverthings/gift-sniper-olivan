@@ -15,7 +15,9 @@ class Config(BaseModel):
     parse_mode: str
     developer: str 
     owner: int
-    poll_interval: int
+
+    vip_poll_interval: int
+    default_poll_interval: int 
 
     redis: RedisConfig
 

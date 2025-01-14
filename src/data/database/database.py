@@ -4,14 +4,14 @@ from sqlalchemy import select
 
 from typing import Optional
 
-from .models import Base, User
+from .models import Base, User, Invoice
 
 
 class Database:
     def __init__(self):
         self.engine = create_async_engine(
             "sqlite+aiosqlite:///src/data/database/database_file/database.sqlite",
-            echo=False
+            echo=False 
         )
         self.async_session = sessionmaker(
             self.engine, 
@@ -34,14 +34,57 @@ class Database:
                 session.add(user)
                 await session.commit()
 
-    async def update_balance(self, _id: int, new_balance: float) -> Optional[User]:
+    async def update_balance(self, _id: int, new_balance: float, add_to_current: bool = False) -> Optional[User]:
         async with self.async_session() as session:
             query = select(User).where(User.id == _id)
             result = await session.execute(query)
             user = result.scalar_one_or_none()
             
             if user:
-                user.balance = new_balance
+                user.balance = (new_balance + user.balance) if add_to_current else new_balance
                 await session.commit()
                 return user
             return None
+
+    async def get_user(self, _id: int) -> Optional[User]:
+        async with self.async_session() as session:
+            query = select(User).where(User.id == _id)
+            result = await session.execute(query)
+            return result.scalar_one_or_none()
+    
+    async def create_invoice(self, amount: int) -> int:
+        async with self.async_session() as session:
+            invoice = Invoice(amount=amount)
+            session.add(invoice)
+
+            await session.commit()
+            await session.refresh(invoice)
+            return invoice.invoice_id
+    
+    async def additional_message_id_invoice(self, invoice_id: int, message_id: int):
+        async with self.async_session() as session:
+            query = select(Invoice).where(Invoice.invoice_id == invoice_id)
+            result = (await session.execute(query)).scalar_one_or_none()
+            
+            result.message_id = message_id
+            await session.commit()
+
+    async def is_invoice_pending(self, invoice_id: int) -> bool:
+        async with self.async_session() as session:
+            query = select(Invoice).where(Invoice.invoice_id == invoice_id)
+            result = (await session.execute(query)).scalar_one_or_none()
+            
+            if result and not result.status:
+                return True
+            return False
+
+    async def get_invoice_message_id(self, invoice_id: int, status: bool) -> int:
+        async with self.async_session() as session:
+            query = select(Invoice).where(Invoice.invoice_id == invoice_id)
+            result = (await session.execute(query)).scalar_one_or_none()
+
+            if result:
+                result.status = status
+                await session.commit()
+
+                return result.message_id

@@ -37,6 +37,7 @@ async def main():
     dp = Dispatcher()
 
     bot.logger = logger 
+    bot.config = config
 
     bot.database = Database()
     await bot.database.init_db()
@@ -47,7 +48,10 @@ async def main():
         dp.include_router(router)
         await logger.adebug(f'load router', router=rname)
 
-    asyncio.create_task(background_gift_updator(bot, redis, logger, config.poll_interval))
+    asyncio.create_task(background_gift_updator(
+        bot, redis, logger, 
+        config.vip_poll_interval, config.default_poll_interval
+    ))
 
     await dp.start_polling(bot)
 

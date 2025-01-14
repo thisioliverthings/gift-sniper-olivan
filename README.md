@@ -30,3 +30,15 @@ redis-server --dir src/redis/storage
 ```bash
 python3 main.py
 ```
+
+### Dev mode
+
+1. Установить nodemon:
+```js
+npm install -g nodemon
+```
+
+2. Запустите:
+```bash
+nodemon --ext py main.py
+```

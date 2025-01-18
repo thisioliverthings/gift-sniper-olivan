@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func, select
 
-from .models import Base, User, Invoice
+from .models import Base, User, Invoice, GiftDelivery
 from src.utils import BalanceOperation
 
 
@@ -120,3 +120,61 @@ class Database:
                 await session.commit()
 
                 return result.message_id
+    
+    async def get_user_updator(self, only_vip: bool = False) -> list[User]:
+        async with self.async_session() as session:
+            if only_vip:
+                query = select(User).where(User.vip == True)
+            else:
+                query = select(User)
+                
+            result = await session.execute(query)
+            return result.scalars().all()
+
+    async def create_gift_delivery(self, gift_id: int, user_id: int) -> GiftDelivery:
+        async with self.async_session() as session:
+            delivery = GiftDelivery(gift_id=gift_id, user_id=user_id)
+            session.add(delivery)
+            await session.commit()
+            return delivery
+
+    async def get_gift_delivery(self, gift_id: int, user_id: int) -> Optional[bool]:
+        async with self.async_session() as session:
+            query = select(GiftDelivery).where(
+                GiftDelivery.gift_id == gift_id,
+                GiftDelivery.user_id == user_id
+            )
+            result = await session.execute(query)
+            delivery = result.scalar_one_or_none()
+            
+            if delivery:
+                return delivery.delivered
+            return None
+
+    async def mark_gift_delivered(self, delivery_id: int) -> None:
+        async with self.async_session() as session:
+            query = select(GiftDelivery).where(GiftDelivery.id == delivery_id)
+            result = await session.execute(query)
+            delivery = result.scalar_one_or_none()
+            if delivery:
+                delivery.delivered = True
+                await session.commit()
+
+    async def user_buy_gift(self, amount: int, user_id: int) -> bool:
+        async with self.async_session() as session:
+            query = select(User).where(User.id == user_id)
+            result = await session.execute(query)
+            user = result.scalar_one_or_none()
+            
+            if user and user.balance >= amount:
+                user.balance -= amount
+                await session.commit()
+                return True
+            
+            return False
+    
+    async def get_total_gifts(self) -> int:
+        async with self.async_session() as session:
+            query = select(func.count()).select_from(GiftDelivery).where(GiftDelivery.delivered == True)
+            result = await session.execute(query)
+            return result.scalar() or 0

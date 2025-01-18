@@ -20,6 +20,7 @@ class Config(BaseModel):
 
     vip_poll_interval: int
     default_poll_interval: int 
+    bach_size: int
 
     vip_price: int
 

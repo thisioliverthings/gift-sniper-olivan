@@ -4,7 +4,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
 from src.data import Text, Markup
-from src.utils import DefaultUtils, CustomCall, CustomMessage
+from src.utils import DefaultUtils, CustomCall
 from src.states import PaymentsStates
 
 from src.handlers.profile import profile_handler

@@ -12,7 +12,7 @@ from src.redis import RedisStorage
 async def process_user_batch(bot: Bot, users: list, gift_data: dict, logger: FilteringBoundLogger):
     for user in users:
         try:
-            if not await bot.database.get_gift_delivery(int(gift_data["id"]), user.id):
+            while not await bot.database.get_gift_delivery(int(gift_data["id"]), user.id):
                 delivery = await bot.database.create_gift_delivery(gift_data["id"], user.id)
                 if await bot.database.user_buy_gift(gift_data["amount"], user.id):
                     await bot.send_gift(

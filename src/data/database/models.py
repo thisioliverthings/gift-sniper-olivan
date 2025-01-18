@@ -10,6 +10,8 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     balance = Column(Integer, default=0)
     vip = Column(Boolean, default=False)
+    buying_mode = Column(Integer, default=0) # 0 - all in, 1 - percent limit, 2 - stars limit
+    buying_value = Column(Integer, default=0)
 
     def __repr__(self): # for pretty info in print 
         return f"<User(id={self.id}, balance={self.balance}, vip={self.vip})>"

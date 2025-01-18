@@ -125,11 +125,14 @@ async def vip_info_handler(call: CallbackQuery):
 
 @router.callback_query(F.data == 'invoice_buy_vip')
 async def vip_buy_handler(call: CallbackQuery):
-    user_balance = (
-        await call.bot.database.get_user(call.from_user.id)
-    ).balance
+    user_db = await call.bot.database.get_user(call.from_user.id)
+    
+    if user_db.vip:
+        return await call.answer(
+            text=Text.errors.already_buy, show_alert=True
+        )
 
-    if user_balance < call.bot.config.vip_price:
+    if user_db.balance < call.bot.config.vip_price:
         return await call.answer(
             text=Text.errors.insufficient_funds,
             show_alert=True

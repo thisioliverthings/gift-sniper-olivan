@@ -2,7 +2,7 @@ from typing import Optional
 
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import select
+from sqlalchemy import func, select
 
 from .models import Base, User, Invoice
 from src.utils import BalanceOperation
@@ -59,6 +59,18 @@ class Database:
             query = select(User).where(User.id == _id)
             result = await session.execute(query)
             return result.scalar_one_or_none()
+
+    async def get_user_count(self) -> int:
+        async with self.async_session() as session:
+            query = select(func.count()).select_from(User)
+            result = await session.execute(query)
+            return result.scalar_one()
+
+    async def get_total_balance(self) -> float:
+        async with self.async_session() as session:
+            query = select(func.sum(User.balance)).select_from(User)
+            result = await session.execute(query)
+            return result.scalar_one() or 0.0
     
     async def grant_vip(self, _id: int, vip_value: bool) -> Optional[User]:
         async with self.async_session() as session:

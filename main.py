@@ -4,7 +4,7 @@
 #                  #
 ####################
 
-import asyncio
+import asyncio, datetime
 
 from structlog import get_logger
 from structlog.typing import FilteringBoundLogger
@@ -38,6 +38,7 @@ async def main():
 
     bot.logger = logger 
     bot.config = config
+    bot.starup_date = datetime.datetime.now().strftime("%d.%m.%Y %H:%M")
 
     bot.database = Database()
     await bot.database.init_db()

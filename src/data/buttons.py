@@ -13,10 +13,6 @@ class Markup:
         [InlineKeyboardButton(text='🚀 Приобрести VIP', callback_data='buy_vip')]
     ])
 
-    settings = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text='Настройки', callback_data='settings')]
-    ])
-
     cancel_invoice = ReplyKeyboardMarkup(keyboard=[
         [KeyboardButton(text='Отмена')]
     ], resize_keyboard=True)
@@ -36,6 +32,13 @@ class Markup:
                 [Markup.back('info')]
             ]
         )
+    
+    @staticmethod
+    def settings(admin_url: str) -> InlineKeyboardMarkup:
+        return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text='Настройки', callback_data='settings')],
+        [InlineKeyboardButton(text='🖥 Администрация', url=admin_url)]
+    ])
 
     @staticmethod
     def back(back_type: str) -> InlineKeyboardButton:

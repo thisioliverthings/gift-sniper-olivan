@@ -27,7 +27,7 @@ async def info_handler(message: Message):
             user_count=await message.bot.database.get_user_count(),
             storage=await message.bot.database.get_total_balance(),
             interval=config.vip_poll_interval if user.vip else config.default_poll_interval
-        ), reply_markup=Markup.settings
+        ), reply_markup=Markup.settings(config.admin_url)
     )
 
 

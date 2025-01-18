@@ -13,6 +13,8 @@ class Config(BaseModel):
 
     bot_token: str 
     parse_mode: str
+
+    admin_url: str
     developer: str 
     owner: int
 

@@ -8,6 +8,7 @@ services:
       - redis
     volumes:
       - ./src/data/database/database_file:/app/src/data/database/database_file
+      - ./config.yaml:/app/config.yaml:ro
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379

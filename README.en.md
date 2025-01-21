@@ -3,7 +3,7 @@
   <a href="README.en.md">English</a> 
 </p>
 
-# Telegram Stars Sniper Bot 
+# Telegram Gifts Sniper Bot 
 
 <div align="center">
   <img src="images/gift.png" alt="Bot gift" width="400">
@@ -30,7 +30,7 @@
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/vmilfe/stars_sniper.git
+git clone https://github.com/vmilfe/gifts_sniper.git
 cd stars_sniper
 ```
 

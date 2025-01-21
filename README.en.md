@@ -30,7 +30,7 @@
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/vmilfe/gifts_sniper.git
+git clone https://github.com/vmilfe/gift_sniper.git
 cd stars_sniper
 ```
 

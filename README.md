@@ -47,6 +47,7 @@ redis-cli ping
 ```bash
 python3 main.py
 ```
+> **Примечание**: Перед запуском убедитесь, что вы создали и настроили файл `config.yaml`
 
 ### Dev mode
 
@@ -77,4 +78,7 @@ docker-compose logs -f bot
 docker-compose down
 ```
 
-> **Примечание**: Перед запуском убедитесь, что вы создали и настроили файл `config.yaml`
+## Поддержка:
+
+По всем вопросам обращайтесь к разработчику:
+- Telegram: [@awixa](https://t.me/awixa)

@@ -1,8 +1,8 @@
-####################
-#                  #
-#    t.me/awixa    #
-#                  #
-####################
+################################
+#             dev:             #
+#          t.me/awixa          #
+################################
+
 
 import asyncio, datetime
 
@@ -21,7 +21,7 @@ from src.data.database import Database
 
 async def print_info(version: str, bot: Bot, logger: FilteringBoundLogger):
     me = await bot.get_me()
-    await logger.ainfo(f'start bot: @{me.username}, version: {version}')
+    await logger.ainfo(f'start bot: @{me.username}, dev: t.me/awixa, version: {version}')
 
 async def main():
     loader_conf = ConfigReader()

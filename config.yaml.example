@@ -1,16 +1,17 @@
-version: 0.0.1 [beta]
+version: 1.0.0 [release]
 
-bot_token: 123123123:qwerty
+bot_token: 123123:qwerty
 parse_mode: html
 
 developer: "@awixa"
 admin_url: t.me/awixa
 owner: 123123123
 
-vip_poll_interval: 3 # in seconds
+vip_poll_interval: 2 # in seconds
 default_poll_interval: 10 # in seconds
+bach_size: 3 # batch users if send
 
-vip_price: 1
+vip_price: 99 # stars
 
 redis:
   host: localhost

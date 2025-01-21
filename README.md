@@ -1,7 +1,7 @@
 # Stars Sniper Bot 
 
 <div align="center">
-  <img src="images/menu.png" alt="Bot menu">
+  <img src="images/gift.png" alt="Bot gift" width="200">
   
   Telegram бот для автоматизации покупки новых Telegram Gifts.
 </div>

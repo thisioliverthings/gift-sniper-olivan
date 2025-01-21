@@ -59,3 +59,22 @@ npm install -g nodemon
 ```bash
 nodemon --ext py main.py
 ```
+
+### Так же вы можете использовать Docker
+
+1. Соберите и запустите контейнеры:
+```bash
+docker-compose up -d --build
+```
+
+2. Для просмотра логов:
+```bash
+docker-compose logs -f bot
+```
+
+3. Для остановки:
+```bash
+docker-compose down
+```
+
+> **Примечание**: Перед запуском убедитесь, что вы создали и настроили файл `config.yaml`

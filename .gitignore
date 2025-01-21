@@ -175,3 +175,6 @@ config.yaml
 
 # Database
 **/database.sqlite
+
+# Redis
+dump.rdb

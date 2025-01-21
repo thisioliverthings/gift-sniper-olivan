@@ -1,0 +1,22 @@
+version: '2.4'
+
+services:
+  bot:
+    build: .
+    restart: always
+    depends_on:
+      - redis
+    volumes:
+      - ./src/data/database/database_file:/app/src/data/database/database_file
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+  redis:
+    image: redis:latest
+    restart: always
+    volumes:
+      - ./src/redis/storage:/data
+    command: redis-server --dir /data
+    ports:
+      - "6379:6379"

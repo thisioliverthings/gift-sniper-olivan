@@ -30,8 +30,8 @@
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/vmilfe/stars_sniper.git
-cd stars_sniper
+git clone https://github.com/vmilfe/gift-sniper.git
+cd gift-sniper
 ```
 
 2. Установите Redis:

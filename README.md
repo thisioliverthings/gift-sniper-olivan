@@ -50,7 +50,7 @@ python3 main.py
 
 ### Dev mode
 
-1. Установить nodemon:
+1. Установите nodemon:
 ```js
 npm install -g nodemon
 ```

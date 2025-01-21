@@ -1,4 +1,9 @@
-# Stars Sniper Bot 
+<p align="center">
+  <a href="README.md">Русский</a> |
+  <a href="README.en.md">English</a> 
+</p>
+
+# Telegram Stars Sniper Bot 
 
 <div align="center">
   <img src="images/gift.png" alt="Bot gift" width="400">

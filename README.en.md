@@ -30,8 +30,8 @@
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/vmilfe/gift_sniper.git
-cd stars_sniper
+git clone https://github.com/vmilfe/gift-sniper.git
+cd gift-sniper
 ```
 
 2. Install Redis:

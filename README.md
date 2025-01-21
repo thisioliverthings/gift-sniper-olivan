@@ -1,6 +1,10 @@
 # Stars Sniper Bot 
 
-Telegram бот для автоматизации покупки новых Telegram Gifts.
+<div align="center">
+  <img src="images/menu.png" alt="Bot menu">
+  
+  Telegram бот для автоматизации покупки новых Telegram Gifts.
+</div>
 
 ## Функции
 

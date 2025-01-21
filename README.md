@@ -34,10 +34,10 @@ pip install -r requirements.txt
 
 ### Запуск
 
-1. Запустите Redis сервер в фоновом режиме:
+1. Запустите Redis сервер в отдельном терминале:
 ```bash
 # Запуск Redis в фоновом режиме
-redis-server --dir src/redis/storage --daemonize yes
+redis-server --dir src/redis/storage
 
 # Проверить что Redis запущен
 redis-cli ping

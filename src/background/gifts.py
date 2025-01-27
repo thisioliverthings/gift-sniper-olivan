@@ -15,11 +15,13 @@ async def process_user_batch(bot: Bot, users: list, gift_data: dict, logger: Fil
             while not await bot.database.get_gift_delivery(int(gift_data["id"]), user.id):
                 delivery = await bot.database.create_gift_delivery(gift_data["id"], user.id)
                 if await bot.database.user_buy_gift(gift_data["amount"], user.id):
-                    await bot.send_gift(
-                        user.id, str(gift_data["id"])
-                    )
-                    await logger.ainfo(f'gift {gift_data["id"]} delivered to user {user.id}')
-                    await bot.database.mark_gift_delivered(delivery.id)
+                    if await bot.telegram_client.send_gift(
+                        user.id, int(gift_data["id"])
+                    ):
+                        await logger.ainfo(f'gift {gift_data["id"]} delivered to user {user.id}')
+                        await bot.database.mark_gift_delivered(delivery.id)
+                    else:
+                        await logger.aerror(f'Failed to deliver gift (client error) {gift_data["id"]} to user {user.id}')
         except Exception as e:
             await logger.aerror(f'Failed to deliver gift {gift_data["id"]} to user {user.id}: {e}')
             continue

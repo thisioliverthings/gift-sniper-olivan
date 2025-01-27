@@ -1,11 +1,11 @@
 from aiogram import Router, F
 from aiogram.filters import StateFilter
-from aiogram.types import Message, CallbackQuery, LabeledPrice, PreCheckoutQuery
+from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.fsm.context import FSMContext
 
 from src.data import Text, Markup
 from src.states import PaymentsStates
-from src.utils import BalanceOperation
+from src.utils import BalanceOperation, CRYPTO_BOT_USERNAME
 
 
 rname = 'payments'
@@ -14,8 +14,11 @@ router = Router()
 
 @router.callback_query(F.data == 'top_up')
 async def new_top_up_handler(call: CallbackQuery, state: FSMContext):
-    back_message = await call.message.edit_text(
-        text=Text.get_amount, 
+    await call.message.delete()
+
+    back_message = await call.message.answer_photo(
+        photo=FSInputFile(f'src/images/sendstars.jpg'),
+        caption=Text.get_amount, 
         reply_markup=Markup.configurator([Markup.back('profile')])
     )
     await state.set_state(PaymentsStates.get_amount)
@@ -24,8 +27,9 @@ async def new_top_up_handler(call: CallbackQuery, state: FSMContext):
     })
 
 
+
 @router.message(StateFilter(PaymentsStates.get_amount))
-async def create_invoice(message: Message, state: FSMContext):
+async def get_result(message: Message, state: FSMContext):
     data = await state.get_data()
 
     await message.bot.delete_message(
@@ -33,44 +37,34 @@ async def create_invoice(message: Message, state: FSMContext):
         message_id=data['back_mess_id']
     )
 
-    if not message.text.isnumeric():
-        return await message.answer(
-            text=Text.errors.not_integer,
-            reply_markup=Markup.configurator([Markup.back('profile')])
+    if (
+        message.reply_markup 
+        and message.reply_markup.inline_keyboard[0][0].callback_data == 'check-creating'
+        and message.via_bot.username == CRYPTO_BOT_USERNAME
+    ):
+        _message =  await message.reply(
+            text=Text.wait_creating
         )
-    
-    await message.answer(
-        text=Text.invoice_emoji,
-        reply_markup=Markup.cancel_invoice
-    )
-    
-    amount = int(message.text)
-    invoice_id = await message.bot.database.create_invoice(amount)
+        await state.set_state(PaymentsStates.wait_payment)
+        await state.set_data({
+            "back_mess_id": _message.message_id
+        })
+        return
 
-    invoice_message = await message.answer_invoice(
-        title="Пополнение баланса",
-        description="После пополнения работа бота в фоне начнется автоматически",
-        payload=str(invoice_id),
-        provider_token="",
-        currency="XTR",
-        prices=[
-            LabeledPrice(
-                label="Пополнение баланса",
-                amount=amount
-            )
-        ]
+    await message.answer(
+        text=Text.utils.bool_to_emoji(False), 
+        reply_markup=Markup.start
     )
-    await message.bot.database.additional_message_id_invoice(
-        invoice_id, invoice_message.message_id
-    )
-    await state.set_data({
-        "invoice_id": invoice_id
-    })
-    await state.set_state(PaymentsStates.wait_payment)
+    await state.clear()
+
+
+@router.edited_message(StateFilter(PaymentsStates.wait_payment))
+async def process_edited_message(message: Message, state: FSMContext):
+    print(message)
 
 
 @router.pre_checkout_query(StateFilter(PaymentsStates.wait_payment))
-async def process_pre_checkout_query(pre_checkout_query: PreCheckoutQuery):
+async def process_pre_checkout_query(pre_checkout_query):
     is_pending = await pre_checkout_query.bot.database.is_invoice_pending(
         int(pre_checkout_query.invoice_payload)
     )

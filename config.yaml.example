@@ -1,17 +1,21 @@
 version: 1.0.0 [release]
 
-bot_token: 123123:qwerty
+bot_token: 1232131:afjnsadnfjdsa
 parse_mode: html
 
 developer: "@awixa"
 admin_url: t.me/awixa
-owner: 123123123
+owner: 6802676832
 
 vip_poll_interval: 2 # in seconds
 default_poll_interval: 10 # in seconds
 bach_size: 3 # batch users if send
 
-vip_price: 99 # stars
+vip_price: 99
+
+api_id: 3124143124
+api_hash: fbshdfasbjfasfasfsfs
+phone_number: "+799999999"
 
 redis:
   host: localhost

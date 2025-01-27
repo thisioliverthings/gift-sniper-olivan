@@ -1,6 +1,9 @@
 from enum import Enum
 
 
+CRYPTO_BOT_USERNAME = 'send'
+
+
 class DefaultUtils:
     def remove_html_tags(text: str) -> str:
         return text.replace('<', '').replace('>', '')

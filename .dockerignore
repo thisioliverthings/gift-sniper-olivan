@@ -9,3 +9,6 @@ venv/
 *.log
 .git
 .gitignore
+
+images/
+.DS_Store

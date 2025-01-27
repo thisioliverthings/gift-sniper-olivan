@@ -1,5 +1,6 @@
 aiogram==3.17.0
-pydantic==2.10.5
-PyYAML==6.0.1
+Kurigram==2.1.36
+Pyrogram==2.0.106
+PyYAML==6.0.2
 SQLAlchemy==2.0.36
 structlog==25.1.0

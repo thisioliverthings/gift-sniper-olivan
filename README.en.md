@@ -3,7 +3,7 @@
   <a href="README.en.md">English</a> 
 </p>
 
-# Telegram Gifts Sniper Bot 
+# Telegram Gifts Sniper Bot [BOT INACTIVE!]
 
 <div align="center">
   <img src="images/gift.png" alt="Bot gift" width="400">

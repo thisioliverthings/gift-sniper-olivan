@@ -11,6 +11,4 @@ venv/
 .gitignore
 
 images/
-!src/images/
-
 .DS_Store

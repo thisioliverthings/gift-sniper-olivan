@@ -24,10 +24,6 @@ class Config(BaseModel):
 
     vip_price: int
 
-    api_id: int
-    api_hash: str
-    phone_number: str
-
     redis: RedisConfig
 
 class ConfigReader:

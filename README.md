@@ -4,7 +4,7 @@
 </p>
 
 # Telegram Gifts Sniper Bot 
-
+## Наш телеграм канал: **https://t.me/mygift_channel**
 <div align="center">
   <img src="images/gift.png" alt="Bot gift" width="400">
   <img src="images/menu.png" alt="Bot gift" width="400">

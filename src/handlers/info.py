@@ -14,7 +14,7 @@ rname = 'info'
 router = Router()
 
 
-@router.message(F.text == 'ℹ️ Информация')
+@router.message(F.text == 'ℹ️ معلومات')
 async def info_handler(message: Message):
     config: Config = message.bot.config
     user = await message.bot.database.get_user(

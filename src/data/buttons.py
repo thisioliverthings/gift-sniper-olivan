@@ -6,7 +6,7 @@ class Markup:
     # قائمة البداية
     start = ReplyKeyboardMarkup(keyboard=[
         [KeyboardButton(text='👤 الملف الشخصي')],
-        [KeyboardButton(text='ℹ️ المعلومات')],
+        [KeyboardButton(text='ℹ️ معلومات')],
     ], resize_keyboard=True)
 
     # قائمة الملف الشخصي

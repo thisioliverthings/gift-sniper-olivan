@@ -10,7 +10,7 @@ rname = 'based'
 router = Router()
 
 
-@router.message(F.text == '👤 Профиль')
+@router.message(F.text == '👤 الملف الشخصي')
 async def profile_handler(message: Message):
     user_info: User = await message.bot.database.get_user(
         message.from_user.id

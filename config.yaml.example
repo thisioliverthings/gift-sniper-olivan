@@ -1,11 +1,11 @@
 version: 1.0.0 [release]
 
-bot_token: 123123:qwerty
+bot_token: 7988817527:AAEtvDKY7qU7iMJVOAAw5KR7LdIrA4-Hy4c
 parse_mode: html
 
-developer: "@awixa"
-admin_url: t.me/awixa
-owner: 123123123
+developer: "@oli17"
+admin_url: t.me/oli17
+owner: 7840013722
 
 vip_poll_interval: 2 # in seconds
 default_poll_interval: 10 # in seconds
